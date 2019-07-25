@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .clearfix:after{
+            content: '';
+            display: table;
+            clear: both;
+        }
+        .wrap{
+            width: 500px;
+            height: 500px;
+            margin: 50px auto;
+            box-shadow: 0 0 5px #999;
+        }
+        .tabs .t-item{
+            float: left;
+            width: 25%;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        .tabs .t-item.active{
+            background-color:#000 ;
+            color: #fff;
+        }
+        .pages{
+            position: relative;
+            height: 450px;
+
+        }
+        .pages .p-item{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            line-height: 450px;
+            text-align: center;
+            font-size: 50px;
+        }
+        .pages .p-item.active{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrap">
+        <div class="tabs clearfix">
+            <div class="t-item active">选项1</div>
+            <div class="t-item">选项2</div>
+            <div class="t-item">选项3</div>
+            <div class="t-item">选项4</div>
+        </div>
+        <div class="pages">
+            <div class="p-item active">页面1</div>
+            <div class="p-item">页面2</div>
+            <div class="p-item">页面3</div>
+            <div class="p-item">页面4</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        ;(function () {
+            var Tab = function () {
+                this.tab = document.getElementsByClassName('tabs')[0];
+                this.tabs = document.getElementsByClassName('t-item');
+                this.pages = document.getElementsByClassName('p-item');
+            }
+            
+            Tab.prototype = {
+                init:function () {
+                    this.bindEvent();
+                },
+                bindEvent:function () {
+                    this.tab.addEventListener('click',this.tabClick.bind(this),false);
+                },
+
+                tabClick:function (e) {
+                    var e = e || window.event,
+                        tar = e.target || e.srcElement,
+                        className = tar.className,
+                        oTabs = this.tabs,
+                        oPages = this.pages,
+                        len = oTabs.length,
+                        thisIndex = Array.prototype.indexOf.call(oTabs,tar),
+                        tItem,pItem;
+                        if (className === 't-item'){
+                            for (var i = 0;i < len; i++){
+                                tItem = oTabs[i];
+                                pItem = oPages[i];
+
+                                //还原
+                                tItem.className = 't-item';
+                                pItem.className = 'p-item';
+
+                            }
+                            oTabs[thisIndex].className += ' active';
+                            oPages[thisIndex].className += ' active';
+                        }
+
+                }
+            }
+
+            return new Tab().init();
+        })();
+    </script>
+
+</body>
+</html>
